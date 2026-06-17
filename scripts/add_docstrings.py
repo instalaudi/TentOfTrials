@@ -3,13 +3,14 @@
 import os
 import re
 from pathlib import Path
+from datetime import datetime
 
 def add_module_level_docstring(file_path):
     with open(file_path, 'r') as file:
         content = file.read()
     if not content.strip():
         return
-    if content.startswith('"' '"') or content.startswith("'''"):
+    if content.startswith('"""') or content.startswith("'''"):
         return
     new_content = """
     {module_name}
@@ -20,7 +21,7 @@ def add_module_level_docstring(file_path):
     """.format(
         module_name=os.path.basename(file_path).replace('.py', ''),
         file_path=file_path,
-        date=os.date('%Y-%m-%d'),
+        date=datetime.now().strftime('%Y-%m-%d'),
         author='Your Name',
         description='Module level docstring for {}'.format(os.path.basename(file_path))
     ) + content
